@@ -70,9 +70,8 @@ enum nss_status _nss_sqlite_getpwnam_r(const char* name, struct passwd *pwbuf,
     int res;
     uid_t uid;
     gid_t gid;
-    const char* sql = "SELECT uid, gid, shell, homedir FROM passwd WHERE username = ?";
-    const char* shell;
-    const char* homedir;
+    const char* sql = "SELECT uid, gid, shell, homedir, gecos FROM passwd WHERE username = ?";
+    const char *shell, *homedir, *gecos;
 
     NSS_DEBUG("getpwnam_r: Looking for user %s\n", name);
 
@@ -97,7 +96,8 @@ enum nss_status _nss_sqlite_getpwnam_r(const char* name, struct passwd *pwbuf,
     gid = sqlite3_column_int(pSt, 1);
     shell = sqlite3_column_text(pSt, 2);
     homedir = sqlite3_column_text(pSt, 3);
-    res = fill_passwd(pwbuf, buf, buflen, name, "x", uid, gid, "", shell, homedir, errnop);
+    gecos = sqlite3_column_text(pSt, 4);
+    res = fill_passwd(pwbuf, buf, buflen, name, "x", uid, gid, gecos, shell, homedir, errnop);
 
     sqlite3_finalize(pSt);
     sqlite3_close(pDb);
@@ -116,10 +116,8 @@ enum nss_status _nss_sqlite_getpwuid_r(uid_t uid, struct passwd *pwbuf,
     struct sqlite3_stmt* pSt;
     int res;
     gid_t gid;
-    const unsigned char *name;
-    const unsigned char *shell;
-    const unsigned char *homedir;
-    const char *sql = "SELECT username, gid, shell, homedir FROM passwd WHERE uid = ?";
+    const unsigned char *name, *shell, *homedir, *gecos;
+    const char *sql = "SELECT username, gid, shell, homedir, gecos FROM passwd WHERE uid = ?";
 
     NSS_DEBUG("getpwuid_r: looking for user #%d\n", uid);
 
@@ -159,13 +157,13 @@ enum nss_status _nss_sqlite_getpwuid_r(uid_t uid, struct passwd *pwbuf,
     gid = sqlite3_column_int(pSt, 1);
     shell = sqlite3_column_text(pSt, 2);
     homedir = sqlite3_column_text(pSt, 3);
+    gecos = sqlite3_column_text(pSt, 4);
 
-    fill_passwd(pwbuf, buf, buflen, name, "*", uid, gid, "",
+    fill_passwd(pwbuf, buf, buflen, name, "*", uid, gid, gecos,
             shell, homedir, errnop);
-   
+
     sqlite3_finalize(pSt);
     sqlite3_close(pDb);
 
     return NSS_STATUS_SUCCESS;
 }
-
