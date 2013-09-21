@@ -1,3 +1,9 @@
+libnss-sqlite (0.2+gnoll4) wheezy; urgency=low
+
+  * populate GECOS field from database.
+
+ -- weykent <weykent@weasyl.com>  Sat, 21 Sep 2013 15:10:24 -0700
+
 libnss-sqlite (0.2+gnoll3) lenny; urgency=low
 
   * Fixing prefix from /usr -> /
@@ -6,8 +12,8 @@ libnss-sqlite (0.2+gnoll3) lenny; urgency=low
 
 libnss-sqlite (0.2+gnoll2) lenny; urgency=low
 
-  [Gleb Golubitsky]  
-  * Fixing distribution name  
+  [Gleb Golubitsky]
+  * Fixing distribution name
   * Maintainer changed to me ;)
 
  -- Gleb Golubitsky <sectoid@gnolltech.org>  Sun, 08 Aug 2010 00:44:40 +0300
@@ -16,9 +22,8 @@ libnss-sqlite (0.2+gnoll1) stable; urgency=low
 
   [Sébastien Le Ray]
   * Initial Release.
-  
-  [Gleb Golubitsky]  
+
+  [Gleb Golubitsky]
   * Initial build for Lenny
 
  -- Gleb Golubitsky <sectoid@gnolltech.org>  Sun, 08 Aug 2010 00:25:07 +0300
-
